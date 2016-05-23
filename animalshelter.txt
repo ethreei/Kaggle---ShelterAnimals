@@ -1,0 +1,35 @@
+---
+title: "Animal Shelter"
+author: "David Tran"
+date: "May 22, 2016"
+output: html_document
+---
+
+This is my exploratory analysis of the Animal Shelter data set on Kaggle. The first steps is to see what type of data I am working with.
+
+```{r, echo=FALSE}
+library(data.table)
+```
+
+
+```{r}
+train_dt <- data.table(read.csv("train.csv"))
+head(train_dt)
+```
+
+The first things I notice is that the outcome type can be logically determined by AnimaType, SexuponOutcome, AeuponOutcome, Breed, and Color. So now I am curious to see what the range of outcomes are for these fields.
+
+```{r}
+sapply(train_dt,class)
+unique(train_dt$AnimalType)
+unique(train_dt$SexuponOutcome)
+unique(train_dt$Breed)
+unique(train_dt$AgeuponOutcome)
+```
+
+Now we have a good understanding of the data present.My next step is to implement a decision tree since its the easeist and most visually represented of the data.
+
+```{r, echo=FALSE}
+library(rpart)
+fit <- rpart(OutcomeType ~ AnimalType + SexuponOutcome + AgeuponOutcome + Breed + Color, data = train_dt)
+```
